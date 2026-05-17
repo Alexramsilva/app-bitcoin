@@ -38,7 +38,8 @@ st.set_page_config(
 # ==========================================
 
 imagen = Image.open("bitcoin.jpg")
-imagen.thumbnail((500, 100))
+imagen = imagen.resize((500, 100))
+
 st.image(
     imagen,
     use_container_width=True
