@@ -48,7 +48,7 @@ st.image(
 # TITULO
 # ==========================================
 
-st.title("📈 Bitcoin Analytics Dashboard")
+st.title("Bitcoin Analytics Dashboard")
 
 st.markdown("Análisis de soporte, ruptura y derivadas polinomiales para Bitcoin.")
 
