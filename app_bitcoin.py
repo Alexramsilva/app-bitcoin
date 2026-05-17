@@ -54,10 +54,6 @@ st.title("Bitcoin Analytics Dashboard")
 st.markdown("Análisis de soporte, ruptura y derivadas polinomiales para Bitcoin.")
 
 # ==========================================
-if ultimos_10_pendiente[-1] > 0:
-    st.success("Tendencia reciente: ALCISTA (Ponte chingón)")
-else:
-    st.error("Tendencia reciente: BAJISTA (No seas necio)")
 # ==========================================
 
 # PARAMETROS
