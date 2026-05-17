@@ -54,6 +54,12 @@ st.title("Bitcoin Analytics Dashboard")
 st.markdown("Análisis de soporte, ruptura y derivadas polinomiales para Bitcoin.")
 
 # ==========================================
+if ultimos_10_pendiente[-1] > 0:
+    st.success("Tendencia reciente: ALCISTA (Ponte chingón)")
+else:
+    st.error("Tendencia reciente: BAJISTA (No seas necio)")
+# ==========================================
+
 # PARAMETROS
 # ==========================================
 
@@ -333,7 +339,7 @@ st.pyplot(fig3)
 # RESULTADOS
 # ==========================================
 
-st.subheader("Pendiente últimas 10 horas")
+st.subheader("(Derivada) Pendiente últimas 10 horas")
 
 resultado = pd.DataFrame({
     "Fecha": ultimas_10_fechas,
