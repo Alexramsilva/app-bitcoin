@@ -355,3 +355,17 @@ if ultimos_10_pendiente[-1] > 0:
     st.success("Tendencia reciente: ALCISTA (Ponte chingón)")
 else:
     st.error("Tendencia reciente: BAJISTA (No seas necio)")
+
+
+
+# --- Personalización de diseño ---
+st.markdown("""
+<style>
+    .stApp {
+        background-color: #0E1117;
+    }
+    .css-1d391kg {
+        color: #faf7f8;
+    }
+</style>
+""", unsafe_allow_html=True)
