@@ -352,9 +352,9 @@ st.dataframe(resultado)
 # ==========================================
 
 if ultimos_10_pendiente[-1] > 0:
-    st.success("Tendencia reciente: ALCISTA (Ponte chingón)")
+    st.success("Tendencia reciente: ALCISTA (Ponte chingón, aprovecha que las cervezas no se pagan solas.)")
 else:
-    st.error("Tendencia reciente: BAJISTA (No seas necio)")
+    st.error("Tendencia reciente: BAJISTA (No seas pinche necio, mejor lee Poesía)")
 
 
 
