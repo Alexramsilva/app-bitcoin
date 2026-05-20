@@ -51,7 +51,7 @@ st.image(
 
 st.title("Bitcoin Analytics Dashboard")
 
-st.markdown("Análisis de soporte, ruptura y derivadas polinomiales para Bitcoin.")
+st.markdown("AI-Driven Bitcoin Analysis Through Support Detection, Breakout Structures, and Polynomial Derivatives")
 
 # ==========================================
 # ==========================================
@@ -227,7 +227,7 @@ Pf2['Date'] = np.arange(
 # AJUSTE POLINOMIAL
 # ==========================================
 
-grado_polinomio = 3
+grado_polinomio = 4
 
 coeficientes = np.polyfit(
     Pf2['Date'],
