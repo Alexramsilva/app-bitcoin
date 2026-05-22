@@ -201,7 +201,7 @@ st.pyplot(fig1)
 
 btc = yf.download(
     ticker,
-    period="30d",
+    period="15d",
     interval="1h"
 )
 
