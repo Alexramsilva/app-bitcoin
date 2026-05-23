@@ -284,7 +284,14 @@ plt.scatter(
     label='Precio BTC',
     s=10
 )
-
+# Último dato en verde
+plt.scatter(
+    Pf2['Date'].iloc[-1],
+    Pf2['Close'].iloc[-1],
+    color='#00FF00',
+    s=80,
+    label='Último dato'
+)
 plt.plot(
     x_fit,
     y_fit,
