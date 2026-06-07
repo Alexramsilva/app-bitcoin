@@ -227,7 +227,7 @@ Pf2['Date'] = np.arange(
 # AJUSTE POLINOMIAL
 # ==========================================
 
-grado_polinomio = 4
+grado_polinomio = 8
 
 coeficientes = np.polyfit(
     Pf2['Date'],
