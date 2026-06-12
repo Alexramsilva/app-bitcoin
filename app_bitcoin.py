@@ -551,3 +551,29 @@ st.markdown("""
 
 </style>
 """, unsafe_allow_html=True)
+
+
+# ==========================================
+# FASE LUNAR DEL DÍA
+# ==========================================
+
+st.markdown("---")
+
+st.subheader("🌙 Fase Lunar Actual")
+
+st.image(
+    "https://www.lunopia.com/es/mod/moon.png?bg=1&fg=@ffffff&date=true&percent=true&phase=true&size=400",
+    caption="Fase Lunar del Día",
+    width=300
+)
+
+st.markdown(
+    """
+    <center>
+        <small>
+        Imagen actualizada automáticamente según la fecha actual.
+        </small>
+    </center>
+    """,
+    unsafe_allow_html=True
+)
