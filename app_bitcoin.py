@@ -559,12 +559,12 @@ st.markdown("""
 
 st.markdown("---")
 
-st.subheader("🌙 Fase Lunar Actual")
+st.subheader("Fase Lunar Actual")
 
 st.image(
     "https://www.lunopia.com/es/mod/moon.png?bg=1&fg=@ffffff&date=true&percent=true&phase=true&size=400",
     caption="Fase Lunar del Día",
-    width=300
+    width=200
 )
 
 st.markdown(
