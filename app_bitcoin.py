@@ -85,7 +85,7 @@ delta = st.sidebar.slider(
 )
 
 # ==========================================
-# DESCARGA DE DATOS
+# DESCARGA DE DATOS  (II)
 # ==========================================
 
 df = yf.download(
@@ -195,6 +195,125 @@ plt.tight_layout()
 
 st.pyplot(fig1)
 
+# ==========================================
+# DATOS BTC 60 DÍAS
+# ==========================================
+
+btc = yf.download(
+    ticker,
+    period="60d",
+    interval="1d"
+)
+
+# ==========================================
+# CIERRE
+# ==========================================
+
+S = btc['Close']
+
+Pf1 = S.to_numpy()
+
+Pf2 = pd.DataFrame(
+    Pf1,
+    columns=['Close']
+)
+
+Pf2['Date'] = np.arange(
+    1,
+    len(Pf2) + 1
+)
+
+# ==========================================
+# AJUSTE POLINOMIAL
+# ==========================================
+
+grado_polinomio = 8
+
+coeficientes = np.polyfit(
+    Pf2['Date'],
+    Pf2['Close'],
+    grado_polinomio
+)
+
+polinomio = np.poly1d(
+    coeficientes
+)
+
+# ==========================================
+# DERIVADA
+# ==========================================
+
+derivada = np.polyder(
+    polinomio
+)
+
+# ==========================================
+# AJUSTE
+# ==========================================
+
+x_fit = np.arange(
+    1,
+    len(Pf2) + 1
+)
+
+y_fit = polinomio(
+    x_fit
+)
+
+pendiente = derivada(
+    x_fit
+)
+
+# ==========================================
+# ULTIMAS 60 días
+# ==========================================
+
+ultimos_10_pendiente = pendiente[-5:]
+
+ultimas_10_fechas = btc.index[-5:]
+
+# ==========================================
+# GRAFICA POLINOMIAL
+# ==========================================
+
+fig2 = plt.figure(figsize=(14,6))
+
+plt.scatter(
+    Pf2['Date'],
+    Pf2['Close'],
+    label='Precio BTC',
+    s=10
+)
+# Último dato en verde
+plt.scatter(
+    Pf2['Date'].iloc[-1],
+    Pf2['Close'].iloc[-1],
+    color='#00FF00',
+    s=80,
+    label='Último dato'
+)
+plt.plot(
+    x_fit,
+    y_fit,
+    color='red',
+    label='Ajuste Polinomial'
+)
+
+plt.xlabel('Observación')
+
+plt.ylabel('Precio')
+
+plt.title('Ajuste Polinomial Bitcoin')
+
+plt.legend()
+
+plt.grid(True)
+
+st.pyplot(fig2)
+
+# ==========================================
+
+######  El análisis precio
 # ==========================================
 # DATOS BTC 1H
 # ==========================================
