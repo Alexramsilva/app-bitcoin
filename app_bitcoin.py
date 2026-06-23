@@ -312,7 +312,245 @@ plt.grid(True)
 st.pyplot(fig2)
 
 # ==========================================
+###################### AHÍ
+####   NUEVO CÓDIGO  #########
+#############################
+btc = yf.download(
+    ticker,
+    period="5d",
+    interval="1h"
+)
 
+# ==========================================
+# CIERRE
+# ==========================================
+
+S = btc['Close']
+
+Pf1 = S.to_numpy()
+
+Pf2 = pd.DataFrame(
+    Pf1,
+    columns=['Close']
+)
+
+Pf2['Date'] = np.arange(
+    1,
+    len(Pf2) + 1
+)
+
+# ==========================================
+# AJUSTE POLINOMIAL
+# ==========================================
+
+grado_polinomio = 8
+
+coeficientes = np.polyfit(
+    Pf2['Date'],
+    Pf2['Close'],
+    grado_polinomio
+)
+
+polinomio = np.poly1d(
+    coeficientes
+)
+
+# ==========================================
+# DERIVADA
+# ==========================================
+
+derivada = np.polyder(
+    polinomio
+)
+
+# ==========================================
+# AJUSTE
+# ==========================================
+
+x_fit = np.arange(
+    1,
+    len(Pf2) + 1
+)
+
+y_fit = polinomio(
+    x_fit
+)
+
+pendiente = derivada(
+    x_fit
+)
+
+# ==========================================
+# BANDAS DE RUPTURA
+# ==========================================
+
+residuos = Pf2['Close'].values - y_fit
+
+desv = np.std(
+    residuos
+)
+
+factor_banda = 2
+
+banda_superior = (
+    y_fit +
+    factor_banda * desv
+)
+
+banda_inferior = (
+    y_fit -
+    factor_banda * desv
+)
+
+# ==========================================
+# ULTIMAS 10 HORAS
+# ==========================================
+
+ultimos_10_pendiente = pendiente[-10:]
+
+ultimas_10_fechas = btc.index[-10:]
+
+# ==========================================
+# DETECCIÓN DE RUPTURA BAJISTA
+# ==========================================
+
+precio_actual = Pf2['Close'].iloc[-1]
+
+banda_inferior_actual = banda_inferior[-1]
+
+ruptura_bajista = (
+    precio_actual <
+    banda_inferior_actual
+)
+
+# ==========================================
+# GRAFICA POLINOMIAL
+# ==========================================
+
+fig2 = plt.figure(
+    figsize=(14,6)
+)
+
+plt.scatter(
+    Pf2['Date'],
+    Pf2['Close'],
+    label='Precio BTC',
+    s=10
+)
+
+# Último dato
+plt.scatter(
+    Pf2['Date'].iloc[-1],
+    Pf2['Close'].iloc[-1],
+    color='#00FF00',
+    s=80,
+    label='Último dato'
+)
+
+# Curva polinomial
+plt.plot(
+    x_fit,
+    y_fit,
+    color='red',
+    linewidth=2,
+    label='Ajuste Polinomial'
+)
+
+# Banda superior
+plt.plot(
+    x_fit,
+    banda_superior,
+    '--',
+    color='blue',
+    linewidth=1.5,
+    label='Banda Superior'
+)
+
+# Banda inferior
+plt.plot(
+    x_fit,
+    banda_inferior,
+    '--',
+    color='orange',
+    linewidth=2,
+    label='Banda Ruptura Inferior'
+)
+
+# Señal de ruptura bajista
+if ruptura_bajista:
+
+    plt.scatter(
+        Pf2['Date'].iloc[-1],
+        precio_actual,
+        color='black',
+        marker='v',
+        s=200,
+        label='RUPTURA BAJISTA'
+    )
+
+plt.xlabel(
+    'Observación'
+)
+
+plt.ylabel(
+    'Precio'
+)
+
+plt.title(
+    'Ajuste Polinomial Bitcoin con Banda de Ruptura'
+)
+
+plt.legend()
+
+plt.grid(
+    True
+)
+
+st.pyplot(
+    fig2
+)
+
+# ==========================================
+# ESTADO DE LA RUPTURA
+# ==========================================
+
+st.subheader(
+    "📉 Estado de Banda Inferior"
+)
+
+col1, col2 = st.columns(2)
+
+with col1:
+    st.metric(
+        "Precio Actual",
+        f"${precio_actual:,.2f}"
+    )
+
+with col2:
+    st.metric(
+        "Banda Inferior",
+        f"${banda_inferior_actual:,.2f}"
+    )
+
+if ruptura_bajista:
+
+    st.error(
+        "🔴 RUPTURA BAJISTA ACTIVADA"
+    )
+
+else:
+
+    distancia = (
+        (precio_actual - banda_inferior_actual)
+        / banda_inferior_actual
+    ) * 100
+
+    st.success(
+        f"🟢 Sin ruptura bajista. Distancia a banda inferior: {distancia:.2f}%"
+    )
+
+##### FIN DE NUEVO CÓDIGO  ######
+#####################  AHÍ
 ######  El análisis precio
 # ==========================================
 # DATOS BTC 1H
