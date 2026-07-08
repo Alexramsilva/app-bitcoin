@@ -722,7 +722,42 @@ else:
 
 
 ##############################
+#### GARCH  ########
+tickers = ['BTC-USD']
+names = ['Bitcoin']
 
+data = yf.download(tickers, period="1y", interval="1d")['Close']
+
+# --- 2. Calcular rendimientos logarítmicos ---
+returns = np.log(data / data.shift(1)).dropna()
+
+# --- 3. Ajustar modelo GARCH(1,1) a cada serie ---
+vol_dict = {}
+
+for col in returns.columns:
+    model = arch_model(returns[col], vol='Garch', p=1, q=1, mean='Zero', dist='normal')
+    res = model.fit(disp='off')
+    vol_dict[col] = res.conditional_volatility
+
+# --- 4. Combinar las volatilidades estimadas ---
+vol_df = pd.DataFrame(vol_dict)
+vol_df.columns = names
+
+# --- 5. Graficar volatilidades condicionales ---
+plt.figure(figsize=(12,6))
+for col in vol_df.columns:
+    plt.plot(vol_df.index, vol_df[col]* 100, label=col)
+
+# Guardar el gráfico como imagen PNG (alta resolución)
+# plt.savefig("volatilidades.png", dpi=300, bbox_inches='tight')
+
+plt.title('Volatilidad condicional estimada con GARCH(1,1)', fontsize=14)
+plt.xlabel('Fecha')
+plt.ylabel('Volatilidad (%)')
+plt.legend()
+plt.grid(True)
+plt.show()
+#### GARCH  ########
 # --- Personalización de diseño ---
 # --- Personalización de diseño ---
 st.markdown("""
