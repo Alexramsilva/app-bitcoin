@@ -723,40 +723,91 @@ else:
 
 ##############################
 #### GARCH  ########
-tickers = ['BTC-USD']
-names = ['Bitcoin']
 
-data = yf.download(tickers, period="1y", interval="1d")['Close']
+st.subheader("Volatilidad GARCH(1,1)")
 
-# --- 2. Calcular rendimientos logarítmicos ---
-returns = np.log(data / data.shift(1)).dropna()
+#====================================
+# Descarga
+#====================================
 
-# --- 3. Ajustar modelo GARCH(1,1) a cada serie ---
+ticker = "BTC-USD"
+
+data = yf.download(
+    ticker,
+    period="1y",
+    interval="1d",
+    progress=False
+)
+
+if data.empty:
+    st.error("No fue posible descargar datos.")
+    st.stop()
+
+#====================================
+# Precio de cierre
+#====================================
+
+close = data["Close"]
+
+# Convertir a DataFrame si sólo existe un activo
+if isinstance(close, pd.Series):
+    close = close.to_frame(name=ticker)
+
+#====================================
+# Rendimientos logarítmicos
+#====================================
+
+returns = np.log(close / close.shift(1)).dropna()
+
+#====================================
+# Modelo GARCH
+#====================================
+
 vol_dict = {}
 
 for col in returns.columns:
-    model = arch_model(returns[col], vol='Garch', p=1, q=1, mean='Zero', dist='normal')
-    res = model.fit(disp='off')
-    vol_dict[col] = res.conditional_volatility
 
-# --- 4. Combinar las volatilidades estimadas ---
+    model = arch_model(
+        returns[col],
+        mean="Zero",
+        vol="GARCH",
+        p=1,
+        q=1,
+        dist="normal"
+    )
+
+    result = model.fit(disp="off")
+
+    vol_dict[col] = result.conditional_volatility
+
 vol_df = pd.DataFrame(vol_dict)
-vol_df.columns = names
 
-# --- 5. Graficar volatilidades condicionales ---
-plt.figure(figsize=(12,6))
+#====================================
+# Gráfico
+#====================================
+
+fig, ax = plt.subplots(figsize=(12,5))
+
 for col in vol_df.columns:
-    plt.plot(vol_df.index, vol_df[col]* 100, label=col)
+    ax.plot(
+        vol_df.index,
+        vol_df[col] * 100,
+        label=col
+    )
 
-# Guardar el gráfico como imagen PNG (alta resolución)
-# plt.savefig("volatilidades.png", dpi=300, bbox_inches='tight')
+ax.set_title("Volatilidad condicional GARCH(1,1)")
+ax.set_xlabel("Fecha")
+ax.set_ylabel("Volatilidad (%)")
+ax.grid(True)
+ax.legend()
 
-plt.title('Volatilidad condicional estimada con GARCH(1,1)', fontsize=14)
-plt.xlabel('Fecha')
-plt.ylabel('Volatilidad (%)')
-plt.legend()
-plt.grid(True)
-plt.show()
+st.pyplot(fig)
+
+#====================================
+# Mostrar datos
+#====================================
+
+st.dataframe(vol_df.tail())
 #### GARCH  ########
 # --- Personalización de diseño ---
 # --- Personalización de diseño ---
