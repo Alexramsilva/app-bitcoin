@@ -36,7 +36,7 @@ st.set_page_config(
 # ==========================================
 # IMAGEN JPG AL INICIO
 # ==========================================
-
+st.image("NQH.svg", caption="", width=400)
 imagen = Image.open("bitcoin.jpg")
 imagen = imagen.resize((500, 100))
 
