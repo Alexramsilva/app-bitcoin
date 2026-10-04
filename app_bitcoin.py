@@ -61,11 +61,12 @@ st.markdown("AI-Driven Bitcoin Analysis Through Support Detection, Breakout Stru
 
 #ticker = st.sidebar.text_input(
 #    "Ticker",
-#    "SOL-USD"
+#    "SOL-USD",
+#    "ZEC-USD"
 #)
 ticker = st.sidebar.selectbox(
     "Ticker",
-    ["BTC-USD", "SOL-USD"],
+    ["BTC-USD", "SOL-USD", "ZEC-USD"],
     index=0
 )
 periodo = st.sidebar.selectbox(
