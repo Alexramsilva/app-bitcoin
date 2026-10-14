@@ -49,9 +49,9 @@ st.image(
 # TITULO
 # ==========================================
 
-st.title("Bitcoin Analytics Dashboard")
+st.title("Bitcoin Analytics Dashboard: Risk first, return second")
 
-st.markdown("AI-Driven Bitcoin Analysis Through Support Detection, Breakout Structures, and Polynomial Derivatives")
+st.markdown("Bitcoin Analysis through Support Detection, Breakout Structures, and Polynomial Derivatives")
 
 # ==========================================
 # ==========================================
