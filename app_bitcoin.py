@@ -62,11 +62,12 @@ st.markdown("Bitcoin Analysis through Support Detection, Breakout Structures, an
 #ticker = st.sidebar.text_input(
 #    "Ticker",
 #    "SOL-USD",
-#    "ZEC-USD"
+#    "ZEC-USD",
+#    "NVDA"
 #)
 ticker = st.sidebar.selectbox(
     "Ticker",
-    ["BTC-USD", "SOL-USD", "ZEC-USD"],
+    ["BTC-USD", "SOL-USD", "ZEC-USD","NVDA"],
     index=0
 )
 periodo = st.sidebar.selectbox(
